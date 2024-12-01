@@ -127,6 +127,9 @@ clear.addEventListener('click', async function() {
 
 async function createCommand(json, key_string) {
     const metadata = JSON.parse(json);
+    if (metadata.url.includes('hr_wv_mpl.mpd')) {
+		metadata.url = metadata.url.replace('hr_wv_mpl.mpd', 'hd_wv_mpl.mpd');
+	}
     const header_string = Object.entries(metadata.headers).map(([key, value]) => `-H "${key}: ${value.replace(/"/g, "'")}"`).join(' ');
     return `${await SettingsManager.getExecutableName()} "${metadata.url}" ${header_string} ${key_string} ${await SettingsManager.getUseShakaPackager() ? "--use-shaka-packager " : ""}-M format=mkv`;
 }
